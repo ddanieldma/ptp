@@ -1,0 +1,13 @@
+# Data in worksheets
+*.xlsx
+
+# Virtual environments
+venv
+venv/
+
+# PDF's
+*.pdf
+
+# pycache
+__pycahce__
+__pycahce__/
