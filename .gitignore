@@ -9,5 +9,5 @@ venv/
 *.pdf
 
 # pycache
-__pycahce__
-__pycahce__/
+__pycache__
+__pycache__/
