@@ -4,11 +4,7 @@ from pathlib import Path
 import pandas as pd
 from collections.abc import Sequence
 
-DATA_DIR = Path("data")
-RAW_DIR = DATA_DIR / "raw"
-FILE_NAME = 'Brazil-Aligned and Non-Aligned All Presidents.xlsx'
-FILE_PATH = RAW_DIR / FILE_NAME
-SHEET_NAME = 'Cabinet & Bureaucracy'
+from extract import *
 
 def get_ws():
     """Returns the worksheet for testing and function use."""
@@ -44,7 +40,10 @@ def categorize_rows(ws: openpyxl.worksheet, column_letter: str, colors_dict: dic
     return categories
 
 
-def transform_dataset(df: pd.DataFrame, categorized_rows_list: Sequence, columns: list[str] = [
+def transform_dataset(
+    df: pd.DataFrame,
+    categorized_rows_list: Sequence,
+    columns: list[str] = [
         'President',
         'Year',
         'Agency',
@@ -126,6 +125,3 @@ if __name__ == "__main__":
     }
 
     categorized_rows_list = categorize_rows(ws, AGENCY_COLUMN, colors_dict)
-
-    import doctest
-    doctest.testmod()
