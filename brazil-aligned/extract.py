@@ -11,5 +11,8 @@ SHEET_NAME = 'Cabinet & Bureaucracy'
 AGENCY_COLUMN = 'D'
 
 # Loading excel file
-wb = load_workbook(FILE_PATH)
-ws = wb[SHEET_NAME]
+try:
+    wb = load_workbook(FILE_PATH)
+    ws = wb[SHEET_NAME]
+except FileNotFoundError:
+    print("Arquivo excel não encontrado")
