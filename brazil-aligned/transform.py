@@ -98,6 +98,21 @@ def transform_dataset_from_excel(file_path: Path = Path("data") / "raw" / 'Brazi
 
     return transform_dataset(df, categorized_rows_list, columns)
 
+def prepare_columns_to_excel(df: pd.DataFrame):
+    # Capitalizing all columns
+    df.columns = df.columns.str.capitalize()
+
+    dict_rename_columns = {
+        "Mean_conc_parc": "% Mean Conceded Partially",
+    }
+
+    # Renaming only aggregated columns that exist in the dataframe
+    rename_columns = {col: new_col for col, new_col in dict_rename_columns.items() if col in df.columns}
+    df = df.rename(columns=rename_columns)
+
+
+    return df
+
 
 if __name__ == "__main__":
     DATA_DIR = Path("data")
