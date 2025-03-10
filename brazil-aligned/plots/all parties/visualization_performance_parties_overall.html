@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-5d1c852e92521b904011c5c9df13acd4"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "party", "title": "Party", "type": "nominal"}, "tooltip": [{"field": "party", "type": "nominal"}, {"field": "% mean conceded partially", "type": "quantitative"}, {"field": "president", "type": "nominal"}], "x": {"axis": {"labelAngle": 0}, "field": "president", "title": "President", "type": "ordinal"}, "xOffset": {"field": "party", "type": "nominal"}, "y": {"field": "% mean conceded partially", "title": "Mean % of Conceded and Partially conceded responses", "type": "quantitative"}}, "height": 400, "title": "Mean performance of parties overall for each president", "width": 1200, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-5d1c852e92521b904011c5c9df13acd4": [{"party": "DEM", "president": "Michel Temer", "% mean conceded partially": 0.8535940803382664}, {"party": "MDB", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8593925309328582}, {"party": "MDB", "president": "Michel Temer", "% mean conceded partially": 0.73909781601219}, {"party": "PCdoB", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8888888888888888}, {"party": "PDB", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.6585365853658537}, {"party": "PDT", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7968131868131868}, {"party": "PMDB", "president": "Michel Temer", "% mean conceded partially": 0.7924528301886792}, {"party": "PODE", "president": "Jair Bolsonaro", "% mean conceded partially": 0.7504546621763544}, {"party": "PODE", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7741384046171942}, {"party": "PODE", "president": "Michel Temer", "% mean conceded partially": 0.7326656936469482}, {"party": "PP", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8922305764411027}, {"party": "PP", "president": "Michel Temer", "% mean conceded partially": 0.8791035237327485}, {"party": "PPS", "president": "Michel Temer", "% mean conceded partially": 0.6486486486486486}, {"party": "PRD", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7397590361445783}, {"party": "PSB", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7228655184169712}, {"party": "PSB", "president": "Michel Temer", "% mean conceded partially": 0.8060230292294066}, {"party": "PSD", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7560886909570251}, {"party": "PSD", "president": "Michel Temer", "% mean conceded partially": 0.7953488372093023}, {"party": "PSDB", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8978102189781021}, {"party": "PSDB", "president": "Michel Temer", "% mean conceded partially": 0.7808645819696779}, {"party": "PSOL", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8040540540540541}, {"party": "PT", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.7883705735975821}, {"party": "PV", "president": "Michel Temer", "% mean conceded partially": 0.7260726072607261}, {"party": "REDE", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.835030549898167}, {"party": "Uni\u00e3o Brasil", "president": "Luiz In\u00e1cio Lula da Silva", "% mean conceded partially": 0.8695693161311174}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"data": {"name": "data-4fd3cb37d50c6dca8c59c6eb5fdeb2a1"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "party", "title": "Party", "type": "nominal"}, "tooltip": [{"field": "year", "type": "quantitative"}, {"field": "party", "type": "nominal"}, {"field": "% mean conceded partially", "type": "quantitative"}, {"field": "president", "type": "nominal"}], "x": {"axis": {"labelAngle": 0}, "field": "year", "title": "Year", "type": "ordinal"}, "xOffset": {"field": "party", "type": "nominal"}, "y": {"field": "% mean conceded partially", "title": "Mean % of Conceded and Partially conceded responses", "type": "quantitative"}}}, {"data": {"name": "data-b89323833d6f46c988926de0f95e3bc3"}, "mark": {"type": "text", "align": "center", "baseline": "bottom", "dy": -200, "fontSize": 14, "fontWeight": "bold"}, "encoding": {"text": {"field": "president", "type": "nominal"}, "x": {"axis": {"labels": false, "ticks": false}, "field": "year", "title": null, "type": "ordinal"}}}], "height": 400, "resolve": {"scale": {"x": "independent"}}, "title": "Mean performance of parties each year", "width": 1200, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-4fd3cb37d50c6dca8c59c6eb5fdeb2a1": [{"party": "DEM", "year": 2017, "% mean conceded partially": 0.8535940803382664, "president": "Temer"}, {"party": "MDB", "year": 2017, "% mean conceded partially": 0.73909781601219, "president": "Temer"}, {"party": "MDB", "year": 2024, "% mean conceded partially": 0.8593925309328582, "president": "Lula"}, {"party": "PCdoB", "year": 2024, "% mean conceded partially": 0.8888888888888888, "president": "Lula"}, {"party": "PDB", "year": 2024, "% mean conceded partially": 0.6585365853658537, "president": "Lula"}, {"party": "PDT", "year": 2024, "% mean conceded partially": 0.7968131868131868, "president": "Lula"}, {"party": "PMDB", "year": 2017, "% mean conceded partially": 0.7924528301886792, "president": "Temer"}, {"party": "PODE", "year": 2017, "% mean conceded partially": 0.6876876876876877, "president": "Temer"}, {"party": "PODE", "year": 2018, "% mean conceded partially": 0.7353114587033752, "president": "Temer"}, {"party": "PODE", "year": 2019, "% mean conceded partially": 0.7429560986742403, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2020, "% mean conceded partially": 0.7327306351460274, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2021, "% mean conceded partially": 0.7759415821998544, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2022, "% mean conceded partially": 0.749795671448342, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2023, "% mean conceded partially": 0.7741384046171942, "president": "Lula"}, {"party": "PP", "year": 2017, "% mean conceded partially": 0.8791035237327485, "president": "Temer"}, {"party": "PP", "year": 2024, "% mean conceded partially": 0.8922305764411027, "president": "Lula"}, {"party": "PPS", "year": 2017, "% mean conceded partially": 0.6486486486486486, "president": "Temer"}, {"party": "PRD", "year": 2024, "% mean conceded partially": 0.7397590361445783, "president": "Lula"}, {"party": "PSB", "year": 2017, "% mean conceded partially": 0.8060230292294066, "president": "Temer"}, {"party": "PSB", "year": 2024, "% mean conceded partially": 0.7228655184169712, "president": "Lula"}, {"party": "PSD", "year": 2017, "% mean conceded partially": 0.7953488372093023, "president": "Temer"}, {"party": "PSD", "year": 2024, "% mean conceded partially": 0.7560886909570251, "president": "Lula"}, {"party": "PSDB", "year": 2017, "% mean conceded partially": 0.7808645819696779, "president": "Temer"}, {"party": "PSDB", "year": 2024, "% mean conceded partially": 0.8978102189781021, "president": "Lula"}, {"party": "PSOL", "year": 2024, "% mean conceded partially": 0.8040540540540541, "president": "Lula"}, {"party": "PT", "year": 2024, "% mean conceded partially": 0.7883705735975821, "president": "Lula"}, {"party": "PV", "year": 2017, "% mean conceded partially": 0.7260726072607261, "president": "Temer"}, {"party": "REDE", "year": 2024, "% mean conceded partially": 0.835030549898167, "president": "Lula"}, {"party": "Uni\u00e3o Brasil", "year": 2024, "% mean conceded partially": 0.8695693161311174, "president": "Lula"}], "data-b89323833d6f46c988926de0f95e3bc3": [{"party": "DEM", "year": 2017, "% mean conceded partially": 0.8535940803382664, "president": "Temer"}, {"party": "MDB", "year": 2024, "% mean conceded partially": 0.8593925309328582, "president": "Lula"}, {"party": "PODE", "year": 2018, "% mean conceded partially": 0.7353114587033752, "president": "Temer"}, {"party": "PODE", "year": 2019, "% mean conceded partially": 0.7429560986742403, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2020, "% mean conceded partially": 0.7327306351460274, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2021, "% mean conceded partially": 0.7759415821998544, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2022, "% mean conceded partially": 0.749795671448342, "president": "Jair Bolsonaro"}, {"party": "PODE", "year": 2023, "% mean conceded partially": 0.7741384046171942, "president": "Lula"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

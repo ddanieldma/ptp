@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "bar"}, "encoding": {"color": {"field": "party", "title": "Party", "type": "nominal"}, "tooltip": [{"field": "year", "type": "quantitative"}, {"field": "party", "type": "nominal"}, {"field": "% mean conceded partially", "type": "quantitative"}, {"field": "president", "type": "nominal"}], "x": {"axis": {"labelAngle": 0}, "field": "year", "title": "Year", "type": "ordinal"}, "xOffset": {"field": "party", "type": "nominal"}, "y": {"field": "% mean conceded partially", "title": "Mean % of Conceded and Partially conceded responses", "type": "quantitative"}}}, {"mark": {"type": "text", "align": "center", "baseline": "bottom", "dy": -200, "fontSize": 14, "fontWeight": "bold"}, "encoding": {"text": {"field": "president", "type": "nominal"}, "x": {"axis": {"labels": false, "ticks": false}, "field": "year", "title": null, "type": "ordinal"}}}], "data": {"name": "data-6445042448bba19b1a0301858eb3a042"}, "height": 400, "resolve": {"scale": {"x": "independent"}}, "title": "Mean performance of parties aligned to the president each year", "width": 1200, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-6445042448bba19b1a0301858eb3a042": [{"party": "PMDB", "year": 2017, "% mean conceded partially": 0.7924528301886792, "president": "Temer"}, {"party": "PODE", "year": 2018, "% mean conceded partially": 0.7111476869074513, "president": "Temer"}, {"party": "PODE", "year": 2019, "% mean conceded partially": 0.7310328402763346, "president": "Bolsonaro"}, {"party": "PODE", "year": 2020, "% mean conceded partially": 0.7135178436750343, "president": "Bolsonaro"}, {"party": "PODE", "year": 2021, "% mean conceded partially": 0.7030955678991423, "president": "Bolsonaro"}, {"party": "PODE", "year": 2022, "% mean conceded partially": 0.6903960655024417, "president": "Bolsonaro"}, {"party": "PODE", "year": 2023, "% mean conceded partially": 0.7427030786853318, "president": "Lula"}, {"party": "PP", "year": 2017, "% mean conceded partially": 0.8831353919239905, "president": "Temer"}, {"party": "PPS", "year": 2017, "% mean conceded partially": 0.6486486486486486, "president": "Temer"}, {"party": "PRD", "year": 2024, "% mean conceded partially": 0.7397590361445783, "president": "Lula"}, {"party": "PSB", "year": 2024, "% mean conceded partially": 0.631578947368421, "president": "Lula"}, {"party": "PSD", "year": 2024, "% mean conceded partially": 0.7668825161887142, "president": "Lula"}, {"party": "PSDB", "year": 2017, "% mean conceded partially": 0.7924528301886792, "president": "Temer"}, {"party": "PT", "year": 2024, "% mean conceded partially": 0.7788803045210406, "president": "Lula"}, {"party": "no party", "year": 2015, "% mean conceded partially": 0.7874985727214032, "president": "Dilma"}, {"party": "no party", "year": 2016, "% mean conceded partially": 0.7663695941828927, "president": "Temer"}, {"party": "no party", "year": 2017, "% mean conceded partially": 0.6757428789136909, "president": "Temer"}, {"party": "no party", "year": 2024, "% mean conceded partially": 0.6791888480324899, "president": "Lula"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
