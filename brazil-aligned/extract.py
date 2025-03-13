@@ -10,19 +10,20 @@ RAW_DIR = DATA_DIR / "raw"
 INTERIM_DIR = DATA_DIR / "interim"
 
 # Constants and setup
-FILE_PATH = RAW_DIR / 'Brazil-Aligned and Non-Aligned All Presidents.xlsx'
+FILE_PATH = RAW_DIR / 'Brazil-Aligned and Non-Aligned All Presidents(editada).xlsx'
 SHEET_NAME = 'Cabinet & Bureaucracy'
 AGENCY_COLUMN = 'D'
 
 PARQUET_PATH = RAW_DIR / 'data-editada-parquet-raw.parquet'
+INTERIM_PARQUET_PATH = INTERIM_DIR / 'data-editada-parquet-final.parquet'
 
-def get_ws() -> openpyxl.worksheet.Worksheet:
+def get_ws() -> openpyxl.worksheet:
     """
     Returns the worksheet for testing and function use.
 
     Returns
     -------
-    openpyxl.worksheet.Worksheet
+    openpyxl.worksheet
         The worksheet object of the `SHEET_NAME` of the `FILE_PATH` file.
     """
     wb = load_workbook(FILE_PATH)
@@ -46,7 +47,9 @@ def get_df_from_excel(file_path: str | Path = None, sheet_name: str = None) -> p
     if not sheet_name:
         sheet_name = SHEET_NAME
 
-    return pd.read_excel(file_path, sheet_name)
+    df = pd.read_excel(file_path, sheet_name)
+
+    return df
 
 def exists_parquet(parquet_path: Path | str) -> bool:
     """
@@ -107,6 +110,12 @@ def clean_dataset(
     # Renaming columns
     df = df.rename(columns={"% Concedico e Parcialmente": "conc_parc"})
     df.columns = df.columns.str.lower()
+    df.columns = df.columns.str.replace(" ", "_")
+
+    # Preenchendo colunas que tem formulas
+    # % Conceded	% Partially conceded	% denied	% Others	% Concedico e Parcialmente
+    df["total_requests"] = df['conceded_response'] + df['partially_conceded_response'] + df['denied'] + df['others']
+    df["% Conceded"] = df['conceded_response'] / df['total_requests']
 
     return df
 
@@ -139,7 +148,7 @@ def categorize_rows(ws: openpyxl.worksheet, column_letter: str, colors_dict: dic
     return categories
 
 def clean_dataset_from_excel(
-        ws: openpyxl.worksheet.Worksheet,
+        ws: openpyxl.worksheet,
         agency_column: str = 'D',
         columns: list[str] = None
     ) -> pd.DataFrame:
@@ -159,9 +168,9 @@ def clean_dataset_from_excel(
     """
 
     colors_dict = {
-        "branco": get_color_index(ws["D1"]),
-        "amarelo": get_color_index(ws["D16"]),
-        "vermelho": get_color_index(ws["D257"]),
+        "branco": get_color_index(ws[f"{agency_column}1"]),
+        "amarelo": get_color_index(ws[f"{agency_column}16"]),
+        "vermelho": get_color_index(ws[f"{agency_column}257"]),
     }
 
     categorized_rows_list = categorize_rows(ws, agency_column, colors_dict)
@@ -188,7 +197,24 @@ def get_data() -> pd.DataFrame:
     """
     if exists_parquet(PARQUET_PATH):
         df = pd.read_parquet(PARQUET_PATH)
+        return df
     else:
         return clean_dataset_from_excel()
 
-    return df
+def get_interim_data():
+    if exists_parquet(INTERIM_PARQUET_PATH):
+        df = pd.read_parquet(INTERIM_PARQUET_PATH)
+        return df
+    
+    raise FileNotFoundError(f"File {INTERIM_PARQUET_PATH} not found!")
+
+# df_brazil_aligned = get_interim_data()
+
+df = get_cleaned_data_from_excel()
+
+print("df['% Conceded']")
+print(df['% Conceded'])
+print("df['conceded_response']")
+print(df['conceded_response'])
+print("df['total_requests']")
+print(df['total_requests'])
