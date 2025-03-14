@@ -10,12 +10,13 @@ RAW_DIR = DATA_DIR / "raw"
 INTERIM_DIR = DATA_DIR / "interim"
 
 # Constants and setup
-FILE_PATH = RAW_DIR / 'Brazil-Aligned and Non-Aligned All Presidents(editada).xlsx'
+FILE_PATH = RAW_DIR / 'Brazil-Aligned and Non-Aligned All Presidents-MASTER.xlsx'
 SHEET_NAME = 'Cabinet & Bureaucracy'
 AGENCY_COLUMN = 'D'
 
 PARQUET_PATH = RAW_DIR / 'data-editada-parquet-raw.parquet'
-INTERIM_PARQUET_PATH = INTERIM_DIR / 'data-editada-parquet-final.parquet'
+INTERIM_PARQUET_PATH = INTERIM_DIR / 'data-editada-parquet-interim.parquet'
+FINAL_PARQUET_PATH = INTERIM_DIR / 'data-editada-parquet-final.parquet'
 
 def get_ws() -> openpyxl.worksheet:
     """
@@ -42,9 +43,9 @@ def get_df_from_excel(file_path: str | Path = None, sheet_name: str = None) -> p
         The name of the sheet with the dataframe. If none, uses default.
     """
 
-    if not file_path:
+    if file_path == None:
         file_path = FILE_PATH
-    if not sheet_name:
+    if sheet_name == None:
         sheet_name = SHEET_NAME
 
     df = pd.read_excel(file_path, sheet_name)
@@ -96,6 +97,7 @@ def clean_dataset(
         except KeyError:
             raise(f"Column not found in dataframe!")
 
+
     # Propagating last valid observation in the columns (this will correctly
     # fill the President and Year columns)
     df = df.ffill()
@@ -104,18 +106,25 @@ def clean_dataset(
     categorized_rows_list = categorized_rows_list[1:] # The first row is the header of the df
     df["category"] = pd.Series(categorized_rows_list, index=df.index)
 
-    # Setting year column to int
-    df["Year"] = df["Year"].astype(int)
 
     # Renaming columns
-    df = df.rename(columns={"% Concedico e Parcialmente": "conc_parc"})
+    # df = df.rename(columns={"% Concedico e Parcialmente": "perc_conc_part"})
     df.columns = df.columns.str.lower()
+    df.columns = df.columns.str.replace("%", "perc")
     df.columns = df.columns.str.replace(" ", "_")
 
-    # Preenchendo colunas que tem formulas
-    # % Conceded	% Partially conceded	% denied	% Others	% Concedico e Parcialmente
-    df["total_requests"] = df['conceded_response'] + df['partially_conceded_response'] + df['denied'] + df['others']
-    df["% Conceded"] = df['conceded_response'] / df['total_requests']
+    # Filling nas to 0 and adjusting the type
+    na_to_zero_cols = [
+        'total_months_(if_not_the_whole_year)',
+        'conceded_response',
+        'partially_conceded_response',
+        'denied',
+        'others',
+    ]
+    for col in na_to_zero_cols:
+        df[col] = df[col].fillna(0).astype(int)
+    # Setting year column to int
+    df["year"] = df["year"].astype(int)
 
     return df
 
@@ -177,6 +186,7 @@ def clean_dataset_from_excel(
 
     df = get_df_from_excel()
 
+
     return clean_dataset(df, categorized_rows_list, columns)
 
 def get_cleaned_data_from_excel():
@@ -188,10 +198,9 @@ def get_cleaned_data_from_excel():
     pd.Dataframe
         The dataframe with the data.
     """
-    
     return clean_dataset_from_excel(get_ws(), AGENCY_COLUMN)
 
-def get_data() -> pd.DataFrame:
+def get_raw_data() -> pd.DataFrame:
     """
     Gets the data, from either parquet or excel.
     """
@@ -199,22 +208,18 @@ def get_data() -> pd.DataFrame:
         df = pd.read_parquet(PARQUET_PATH)
         return df
     else:
-        return clean_dataset_from_excel()
-
+        return get_df_from_excel()
+    
 def get_interim_data():
     if exists_parquet(INTERIM_PARQUET_PATH):
         df = pd.read_parquet(INTERIM_PARQUET_PATH)
         return df
+    else:
+        return get_cleaned_data_from_excel()
     
-    raise FileNotFoundError(f"File {INTERIM_PARQUET_PATH} not found!")
-
-# df_brazil_aligned = get_interim_data()
-
-df = get_cleaned_data_from_excel()
-
-print("df['% Conceded']")
-print(df['% Conceded'])
-print("df['conceded_response']")
-print(df['conceded_response'])
-print("df['total_requests']")
-print(df['total_requests'])
+def get_final_data():
+    if exists_parquet(FINAL_PARQUET_PATH):
+        df = pd.read_parquet(FINAL_PARQUET_PATH)
+        return df
+    
+    raise FileNotFoundError(f"File {FINAL_PARQUET_PATH} not found!")

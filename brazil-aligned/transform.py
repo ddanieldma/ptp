@@ -7,21 +7,14 @@ from extract import *
 
 
 def prepare_columns_to_excel(df: pd.DataFrame):
-    # Capitalizing all columns
-    df.columns = df.columns.str.capitalize()
-
-    dict_rename_columns = {
-        "Mean_conc_parc": "% Mean Conceded and Partially",
-        "conc_parc": "% Conceded and Partially",
-        "% conceded": "% Conceded",
-        "% partially conceded": "% Partially Conceded",
-        "% denied": "% Denied",
-        "% others": "% Others",
-    }
-
-    # Renaming only aggregated columns that exist in the dataframe
-    rename_columns = {col: new_col for col, new_col in dict_rename_columns.items() if col in df.columns}
-    df = df.rename(columns=rename_columns)
+    # Dropping category column if it exists
+    if 'category' in list(df.columns):
+        df = df.drop(columns=['category'])
+    
+    # Changing names back to the original
+    df.columns = df.columns.str.replace("_", " ")
+    df.columns = df.columns.str.strip().str.replace("perc", "%", case=False)
+    df.columns = df.columns.str.title()
 
     return df
 
@@ -31,28 +24,10 @@ def save_dataframe_to_excel_tab(df: pd.DataFrame, file_path: Path | str, sheet_n
         df.to_excel(writer, sheet_name=sheet_name, index=False)
 
 if __name__ == "__main__":
-    DATA_DIR = Path("data")
-    RAW_DIR = DATA_DIR / "raw"
+    from extract import get_interim_data
 
-    # Constants and setup
-    FILE_NAME = 'Brazil-Aligned and Non-Aligned All Presidents.xlsx'
-    FILE_PATH = RAW_DIR / FILE_NAME
-    SHEET_NAME = 'Cabinet & Bureaucracy'
+    df = get_interim_data()
+    print(df.head(5))
 
-    # Loading workbook and sheet
-    ws = None
-    try:
-        wb = load_workbook(FILE_PATH)
-        ws = wb[SHEET_NAME]
-    except FileNotFoundError:
-        raise FileExistsError(f"Original excel file '{FILE_NAME}' expected!")
-
-    AGENCY_COLUMN = 'D'
-    
-    colors_dict = {
-        "branco": get_color_index(ws["D1"]),
-        "amarelo": get_color_index(ws["D16"]),
-        "vermelho": get_color_index(ws["D257"]),
-    }
-
-    categorized_rows_list = categorize_rows(ws, AGENCY_COLUMN, colors_dict)
+    excel_df = prepare_columns_to_excel(df)
+    print(excel_df.head(5))
